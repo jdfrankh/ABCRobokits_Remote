@@ -358,9 +358,8 @@ switch(dir[0]){
     break;
 }
 
-switch(dir[1]){
-    u8g2.drawGlyph(24, 42, 76); // Draws a forward arrow at (24, 42)
-}
+//switch(dir[1]){
+//}
 
 
   // Display digital pin states

@@ -115,7 +115,8 @@ void joystickToPolarRight(uint16_t x, uint16_t y){
 }
 
 /*###########################WIRELESS FUNCTIONS ###############################*/
-void onRecv(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
+void onRecv(const esp_now_recv_info_t *recv_info, const uint8_t *data, int data_len) {
+    const uint8_t *mac_addr = recv_info->src_addr;
         char id[20];
     if (data_len == sizeof(id) ){
         memcpy(&id, data, sizeof(id));
@@ -240,8 +241,8 @@ U8G2EZ_init();
 //drawSimple("Searching for Receivers...", 3000, 0, 30, true);
 
 //Serial.println("Pressing Buttons:");
-inputPinsSetup(buttonsGPIO);
-inputPinsSetup(analogGPIO);
+inputPinsSetup(buttonsGPIO, sizeof(buttonsGPIO));
+inputPinsSetup(analogGPIO, sizeof(analogGPIO));
 
 WiFi.mode(WIFI_MODE_STA);
 //WiFi.disconnect();
@@ -395,7 +396,7 @@ void loop(){
 
 //    drawLogo();
   //  Serial.println("Printing Controls");
-  pd = readControls(buttonsGPIO, analogGPIO);
+  pd = readControls(buttonsGPIO, sizeof(buttonsGPIO), analogGPIO, sizeof(analogGPIO));
 
   doMath(pd);
   Serial.printf("Direction 0 value: %d", sD.Direction[0]);

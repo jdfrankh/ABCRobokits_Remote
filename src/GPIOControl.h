@@ -10,7 +10,7 @@ enum readType {
     ANALOGPIN = 1,
 };
 
-typedef struct pinData{
+struct pinData{
     uint16_t joysticks[4]; //left and right, 1 and 2
     bool buttons[4];
 
@@ -18,9 +18,9 @@ typedef struct pinData{
 
 
 
-void inputPinsSetup(const uint8_t inputs[]){
+void inputPinsSetup(const uint8_t inputs[], size_t inputsLen){
 
-    for(int i = 0; i < sizeof(inputs); i++){
+    for(int i = 0; i < inputsLen; i++){
         pinMode(inputs[i], INPUT);
     }
 
@@ -43,13 +43,13 @@ int readPin(uint8_t pin, int type){
 
 }
 
-pinData readControls(const uint8_t regButtons[], const uint8_t analogButtons[]){
+pinData readControls(const uint8_t regButtons[], size_t regButtonsLen, const uint8_t analogButtons[], size_t analogButtonsLen){
     pinData temp;
 
-    for(int i = 0; i < sizeof(regButtons); i++){
+    for(int i = 0; i < regButtonsLen; i++){
         temp.buttons[i] = digitalRead(regButtons[i]);
     }
-    for(int i = 0; i < sizeof(analogButtons); i++){
+    for(int i = 0; i < analogButtonsLen; i++){
 
         temp.joysticks[i] = analogRead(analogButtons[i]);
     }
